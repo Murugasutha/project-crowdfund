@@ -11,7 +11,7 @@ A full-stack crowdfunding web application where users can start, browse, and sup
 - ✅ User authentication (JWT)
 - ✅ Start a new campaign
 - ✅ View all campaigns
-- ⬜ Campaign search & filters
+- ✅ Campaign search & filters
 - ⬜ Campaign detail page
 - ⬜ Contribution/donation system
 - ⬜ Image upload for campaigns
