@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { Button, Col, Container, Form, InputGroup, Row, Card, CardBody, CardTitle, CardText, ProgressBar, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import AOS from 'aos';
-import { getAllCampaigns, searchCampaign } from '../services/api';
+import { getAllCampaigns, getImage, searchCampaign } from '../services/api';
 
 function CampaignPage() {
 
@@ -145,7 +144,7 @@ function CampaignPage() {
                     ) : campaigns.length > 0 ? (
                         campaigns.map((camp, index) => {
                             const imgSrc = camp.imgURL
-                                ? `http://localhost:5000${camp.imgURL}`
+                                ? getImage(camp.imgURL)
                                 : 'https://via.placeholder.com/600x400?text=Campaign+Banner';
 
                             return (

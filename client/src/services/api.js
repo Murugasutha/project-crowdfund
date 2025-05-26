@@ -22,3 +22,7 @@ export const getAllCampaigns = () => API.get('/api/campaign')
 export const searchCampaign = (params) => API.get('/api/campaign/search', {params})
 
 export const createCampaign = (data) => API.post('/api/campaign/create-campaign', data)
+
+export const getImage = (imagePath) => `http://localhost:5000${imagePath}`;
+
+export const getCamapignById = (id) => API.get(`/api/campaign/${id}`);

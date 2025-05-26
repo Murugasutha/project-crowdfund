@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import { Route, Routes} from 'react-router-dom';
@@ -15,6 +15,7 @@ import AboutPage from './pages/AboutPage';
 import Contact from './pages/Contact';
 
 import { fetchMessage } from './services/api';
+import CamapignDetail from './pages/CampaignDetail';
 
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
         <Route path='/campaigns' element={<CampaignPage/>}/>
         <Route path='/contact' element={<Contact/>}/>
         <Route path='/startCampaign' element={<StartCampaign/>}/>
+        <Route path='/campaign/:id' element={<CamapignDetail/>}/>
       </Routes>
       <Footer/>
     </>

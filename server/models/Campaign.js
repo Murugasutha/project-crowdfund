@@ -5,6 +5,7 @@ const campaignSchema = new mongoose.Schema({
     story: {type: String, required: true},
     category: {type: String, required: true},
     targetAmount: {type: Number, required: true},
+    raisedAmount: {type: Number, default: 0},
     endDate: {type: Date, required: true},
     imgURL : {type: String, required: true},
 }, {timestamps: true});
