@@ -153,7 +153,7 @@ function CampaignPage() {
                                         <CardBody>
                                             <img src={imgSrc} alt="banner" style={{height: 200, objectFit: 'cover', width: '100%'}} />
 
-                                            <ProgressBar now={70} variant='success' className='mt-4' style={{height: '10px', borderRadius: '50px'}}/>
+                                            <ProgressBar now={70} variant='success' animated className='mt-4' style={{height: '10px', borderRadius: '50px'}}/>
                                             <div className="card-text py-2 mt-2">
                                                 <div className="d-flex justify-content-between">
                                                     <CardTitle>{camp.title}</CardTitle>
