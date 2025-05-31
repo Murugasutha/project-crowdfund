@@ -15,23 +15,22 @@ async function createNewUser(data){
     let newUser = new User({
         name: data.name,
         email: data.email,
-        password: data.password,
-        role: data.role
+        password: data.password
     });
     await newUser.save();
     return {message: "User created successfully"}
 }
 
 router.post('/signup', async(req, res) => {
-    const {name, email, password, role} = req.body;
+    const {name, email, password} = req.body;
 
-    if (!name || !email || !password || !role) {
+    if (!name || !email || !password) {
         return res.status(400).json({ error: "All fields are required" });
     }
 
     try{
         const hashedPassword = await bcrypt.hash(password, 10);
-        const result = await createNewUser({name, email, password: hashedPassword, role})
+        const result = await createNewUser({name, email, password: hashedPassword})
         res.status(201).json(result);
     } catch(error){
         res.status(400).json({error: error.message});
@@ -50,7 +49,7 @@ async function getUser(data){
     //Generate JWT token
 
     const token = jwt.sign(
-        {id: user._id, email: user.email, role: user.role},
+        {id: user._id, email: user.email},
         SECRET_KEY,
         {expiresIn: '1h'}
     )

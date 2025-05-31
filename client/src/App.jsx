@@ -16,6 +16,7 @@ import Contact from './pages/Contact';
 
 import { fetchMessage } from './services/api';
 import CamapignDetail from './pages/CampaignDetail';
+import DashBoard from './pages/Dashboard';
 
 
 function App() {
@@ -42,6 +43,7 @@ function App() {
         <Route path='/contact' element={<Contact/>}/>
         <Route path='/startCampaign' element={<StartCampaign/>}/>
         <Route path='/campaign/:id' element={<CamapignDetail/>}/>
+        <Route path='/dashboard' element={<DashBoard/>} />
       </Routes>
       <Footer/>
     </>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Container, Form, Button, Row, Col, Alert } from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import signupImg from '../assets/signup.svg'
@@ -8,7 +8,6 @@ import { createNewUser } from "../services/api";
 
 function Signup() {
 
-    const [role, setRole] = useState('Donor');
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -16,6 +15,8 @@ function Signup() {
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
     const [loading, setLoading] = useState(false)
+
+    const navigate = useNavigate()
 
     useEffect(() => {
         AOS.init({
@@ -25,9 +26,6 @@ function Signup() {
         });
     },[])
 
-    const handleRoleChange = (event) => {
-        setRole(event.target.value);
-    };
 
     const handlePasswordChange = (event) => {
         setPassword(event.target.value);
@@ -51,7 +49,7 @@ function Signup() {
 
         try {
             const data = {
-                name, email, password, role
+                name, email, password
             }
             const response = await createNewUser(data)
 
@@ -68,7 +66,8 @@ function Signup() {
                 setEmail('');
                 setPassword('');
                 setConfirmPassword('');
-                setRole('Donor');
+
+                navigate('/dashboard')
             }
         } catch (error) {
             setErrorMessage(error.response?.data?.error || "Something went wrong");
@@ -119,14 +118,6 @@ function Signup() {
                                 <Form.Group controlId="formBasicConfirmPassword" className="mb-3">
                                     <Form.Label>Confirm Password</Form.Label>
                                     <Form.Control type="password" placeholder="Password" value={confirmPassword} onChange={handleConfirmPasswordChange} required />
-                                </Form.Group>
-
-                                <Form.Group controlId="formBasicRole" className="mb-3">
-                                    <Form.Label>Role</Form.Label>
-                                    <Form.Control as="select" value={role} onChange= {handleRoleChange} required >
-                                        <option value="Donor">Donor</option>
-                                        <option value="Creator">Creator</option>
-                                    </Form.Control>
                                 </Form.Group>
 
                                 <Button variant="success" type="submit" className="w-50 mb-3 d-flex justify-content-center mx-auto" disabled={loading}>

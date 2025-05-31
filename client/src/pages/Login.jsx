@@ -48,7 +48,7 @@ function Login() {
 
                 //redirect tp other page
 
-                navigate('/test');
+                navigate('/dashboard');
             }
 
             if(response.data.error){

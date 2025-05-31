@@ -11,11 +11,20 @@ function CamapignDetail() {
     const navigate = useNavigate();
     const [campaign, setCampaign] = useState([]);
     const [user, setUser] = useState(null)
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 992);
 
     useEffect(() => {
+        window.scroll({top: 0, behavior: 'smooth'})
+
+        const handleResize = () => setIsMobile(window.innerWidth < 992);
+
+        window.addEventListener('resize', handleResize);
+
         getCamapignById(id)
             .then(res => setCampaign(res.data))
             .catch(err => console.log('Error fetch campagin: ', err))
+
+    return () => window.removeEventListener('resize', handleResize)
     }, [id])
     
     useEffect(() =>{
@@ -49,8 +58,8 @@ function CamapignDetail() {
                     </Col>
                 </Row>
 
-                <Row className='g-4'>
-                    <Col lg={8} md={12} data-aos="fade-right">
+                <Row className='g-4 position-relative' >
+                    <Col lg={8} md={12} data-aos="fade-left">
                         <img src={campaign.imgURL ? getImage(campaign.imgURL) : 'https://via.placeholder.com/600x400?text=No+Image'} 
                         alt="Campaign Banner"
                         className='rounded w-100' 
@@ -61,7 +70,12 @@ function CamapignDetail() {
                         }}
                         />
                     </Col>
-                    <Col lg={4} md={12} data-aos="fade-left">
+                    <Col lg={4} md={12} data-aos="fade-right" 
+                    className='my-3' 
+                    style={{
+                        position : isMobile ? 'static' : 'sticky',
+                        top: isMobile? 'auto' :'100px'
+                        }}>
                         <CampaignSidebar
                             title = {campaign.title}
                             category = {campaign.category}
@@ -69,9 +83,9 @@ function CamapignDetail() {
                             raisedAmount = {campaign.raisedAmount || 0}
                         />
                     </Col>
-                </Row>
+                {/* </Row> */}
 
-                <Row>
+                {/* <Row> */}
                     <Col md={8}>
                         <h3 className='my-4'>{campaign.shortDesc} </h3>
                         <p>{campaign.story}</p>

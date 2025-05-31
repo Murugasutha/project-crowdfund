@@ -7,7 +7,7 @@ import 'react-circular-progressbar/dist/styles.css';
 function CampaignSidebar({title, category, targetAmount, raisedAmount}) {
     return ( 
         <>
-            <div className='my-3 sticky-top' style={{top: '100px'}}>
+            <div>
                             <h2>{title}</h2>
                             <p><strong>Category: </strong>{category}</p>
                             <div className="d-flex justify-content-between align-items-center border rounded mb-3">                        
