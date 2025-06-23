@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Alert, Button, Card, CardBody, CardSubtitle, CardText, CardTitle, Col, Container, Form, ProgressBar, Row } from 'react-bootstrap';
 import { createCampaign } from '../services/api';
+import { useNavigate } from 'react-router-dom';
 
 
 function StartCampaign () {
@@ -17,6 +18,14 @@ function StartCampaign () {
     });
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('')
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if(!token) {
+            navigate('/login');
+        }
+    },[])
 
     const handleChange = (e) => {
         const {name, value, files} = e.target;
@@ -161,17 +170,6 @@ function StartCampaign () {
 
     return ( 
             <Container className='my-4 rounded' style={{maxWidth: "900px"}}>
-                {successMessage && (
-                    <Alert variant='success' onClose={() => setSuccessMessage('')} dismissible>
-                        {successMessage}
-                    </Alert>
-                )}
-
-                {errorMessage && (
-                    <Alert variant='danger' onClose={() => setErrorMessage('')} dismissible>
-                        {errorMessage}
-                    </Alert>
-                )}
 
                 <Form encType="multipart/form-data">
 
@@ -287,6 +285,18 @@ function StartCampaign () {
                         )}
                     </div>
                 </Form>
+
+                {successMessage && (
+                    <Alert variant='success' onClose={() => setSuccessMessage('')} dismissible>
+                        {successMessage}
+                    </Alert>
+                )}
+
+                {errorMessage && (
+                    <Alert variant='danger' onClose={() => setErrorMessage('')} dismissible>
+                        {errorMessage}
+                    </Alert>
+                )}
             </Container>
      );
 }

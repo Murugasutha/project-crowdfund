@@ -51,7 +51,7 @@ async function getUser(data){
     const token = jwt.sign(
         {id: user._id, email: user.email},
         SECRET_KEY,
-        {expiresIn: '1h'}
+        {expiresIn: '2d'}
     )
 
     return {message: 'Login Successful', token, user}

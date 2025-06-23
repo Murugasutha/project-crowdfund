@@ -8,6 +8,7 @@ const campaignSchema = new mongoose.Schema({
     raisedAmount: {type: Number, default: 0},
     endDate: {type: Date, required: true},
     imgURL : {type: String, required: true},
+    createdBy: {type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true}
 }, {timestamps: true});
 
 module.exports = mongoose.model('Campaign', campaignSchema)
