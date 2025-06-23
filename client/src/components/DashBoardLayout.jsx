@@ -19,8 +19,8 @@ const DashboardLayout = () => {
           <Col md={3} lg={2} className='bg-success text-white p-4 sticky'>
             <h4 className='mb-4 '>Hi USER!</h4>
             <Nav className='flex-column'>
-              <Nav.Link as={Link} to="/my-campaign" className='text-white'>My Campaign</Nav.Link>
-              <Nav.Link as={Link} to="/dashboard" className='text-white'>Start Campaign</Nav.Link>
+              <Nav.Link as={Link} to="/dashboard/myCampaign" className='text-white'>My Campaign</Nav.Link>
+              <Nav.Link as={Link} to="/dashboard/start-campaign" className='text-white'>Start Campaign</Nav.Link>
             </Nav>
 
             <Button onClick={handleLogout} variant='light' className='mt-4 w-100'>Logout</Button>

@@ -20,12 +20,12 @@ function StartCampaign () {
     const [successMessage, setSuccessMessage] = useState('')
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const token = localStorage.getItem('token');
-        if(!token) {
-            navigate('/login');
-        }
-    },[])
+    // useEffect(() => {
+    //     const token = localStorage.getItem('token');
+    //     if(!token) {
+    //         navigate('/login');
+    //     }
+    // },[])
 
     const handleChange = (e) => {
         const {name, value, files} = e.target;
@@ -36,7 +36,14 @@ function StartCampaign () {
         }
     };
 
-    const nextStep = () => setStep((prev) => prev + 1);
+    const nextStep = () => {
+        const token = localStorage.getItem('token');
+        if(!token) {
+            navigate('/login');
+        }
+
+        setStep((prev) => prev + 1);
+    }
     const prevStep = () => setStep((prev) => prev - 1);
 
     const steps = [
@@ -149,6 +156,8 @@ function StartCampaign () {
                 setErrorMessage(response.data.error)
                 setSuccessMessage('')
             }
+
+            navigate('/dashboard/myCampaign')
 
         } catch (error) {
             setErrorMessage(error.response?.data?.error || "Something went wrong")

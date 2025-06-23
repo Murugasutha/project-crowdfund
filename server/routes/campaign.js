@@ -70,10 +70,16 @@ router.post('/create-campaign', protect, upload.single('image'), async (req, res
 
 router.get('/my-campaigns', protect, async (req, res) => {
   try {
+    console.log("User from token:", req.user);
+
+     if (!req.user || !req.user._id) {
+      return res.status(401).json({ error: 'Unauthorized: User ID not found' });
+    }
+
     const campaigns = await Campaign.find({ createdBy: req.user._id }).sort({ createdAt: -1 });
-    res.status(200).json(campaigns);
+    return res.status(200).json(campaigns);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    return res.status(500).json({ error: error.message });
   }
 });
 
@@ -100,10 +106,10 @@ router.get('/search', async (req, res) => {
 
     try {
         let result = await getCampaignByQuery(query, sortOption)
-        if(result.length === 0) res.status(404).json({message: "No Campaigns found."})
-        res.status(200).json(result)
+        if(result.length === 0) return res.status(404).json({message: "No Campaigns found."})
+        return res.status(200).json(result)
     } catch (error) {
-        res.status(500).json({error: error.message})
+        return res.status(500).json({error: error.message})
     }
 })
 
@@ -136,9 +142,9 @@ router.get('/:id', async (req, res) => {
     try {
         let id = req.params.id;
         let result = await getCampaignsById(id)
-        res.status(200).json(result)
+        return res.status(200).json(result)
     } catch (error) {
-        res.status(500).json({error: error.message })
+        return res.status(500).json({error: error.message })
     }
 })
 

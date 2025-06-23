@@ -17,6 +17,7 @@ import CamapignDetail from './pages/CampaignDetail';
 import MainLayout from './components/MainLayout';
 import DashboardLayout from './components/DashBoardLayout';
 import UserDashboard from './pages/UserDashboard';
+import MyCampaign from './pages/MyCampaign';
 
 function App() {
 
@@ -55,6 +56,8 @@ function App() {
 
         <Route path='/dashboard' element={<DashboardLayout/>}>
           <Route index element={<UserDashboard/>}/>
+          <Route path='myCampaign' element={<MyCampaign/>}/>
+          <Route path='start-campaign' element={<StartCampaign/>}/>
         </Route>
       </Routes>
     </>

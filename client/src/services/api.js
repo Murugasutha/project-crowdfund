@@ -21,8 +21,25 @@ export const getAllCampaigns = () => API.get('/api/campaign')
 
 export const searchCampaign = (params) => API.get('/api/campaign/search', {params})
 
-export const createCampaign = (data) => API.post('/api/campaign/create-campaign', data)
+export const createCampaign = (data) => {
+    const token = localStorage.getItem('token')
+    return API.post('/api/campaign/create-campaign', data, {
+    
+    headers: {
+        Authorization: `Bearer ${token}`,
+    }
+})}
 
 export const getImage = (imagePath) => `http://localhost:5000${imagePath}`;
 
 export const getCamapignById = (id) => API.get(`/api/campaign/${id}`);
+
+export const getUserCampaign = async () => {
+    const token = localStorage.getItem('token')
+    
+    return API.get('api/campaign/my-campaigns', {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        }
+    })
+}
