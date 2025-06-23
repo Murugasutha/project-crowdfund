@@ -1,24 +1,35 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Col, Container, Form, InputGroup, Row, Card, CardBody, CardTitle, CardText, ProgressBar, Spinner } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import AOS from 'aos';
-import { getAllCampaigns, getImage, searchCampaign } from '../services/api';
+import { Button, Col, Container, Form, InputGroup, Row } from 'react-bootstrap';
+// import { Link } from 'react-router-dom';
+import { getAllCampaigns, searchCampaign } from '../services/api';
+import CampaignList from '../components/CampaignList';
+import SearchBar from '../components/SearchBar';
+import SelectFilter from '../components/SelectFilter';
 
 function CampaignPage() {
-
-    useEffect(() =>{
-            AOS.init({
-                duration: 900,
-                once: false,
-                offset: 100,
-            });
-        },[])
 
     const [searchTerm, setSearchTerm] = useState('')
     const [category, setCategory] = useState('')
     const [sortBy, setSortBy] = useState('')
     const [campaigns, setCampaigns] = useState([])
     const [loader, setLoader] = useState(false)
+
+    const sortOptions = [
+        {value: "", label: "Sort By"},
+        {value: "newest", label: "Newest"},
+        {value: "oldest", label: "Oldest"},
+        {value: "amount_desc", label: "Highest Target Amount"},
+        {value: "amount_asc", label: "Lowest Target Amount"},
+    ]
+
+    const categoryOptions = [
+        {value: "", label: "All Categories",},
+        { value: 'Education', label: 'Education' },
+        { value: 'Medical', label: 'Medical' },
+        { value: 'Business', label: 'Business' },
+        { value: 'Environment', label: 'Environment' },
+        { value: 'Other', label: 'Other' },
+    ];
 
     const handleCategory = (e) => {
         setCategory(e.target.value)
@@ -29,20 +40,20 @@ function CampaignPage() {
     }
 
     const fetchAllCampaigns = async () => {
-        // setLoader(true)
+        setLoader(true)
         try {
             const response = await getAllCampaigns()
             setCampaigns(response.data);
         } catch (error) {
             console.log('Error fetching campaigns: ', error);
             setCampaigns([])
+            setLoader(false)
         }
 
-        // setLoader(false)
+        setTimeout(() => setLoader(false), 1000);
     };
 
     const  handleSearch = async () => {
-        // setLoader(true)
         try {
             const params = {}
             if(searchTerm) params.title = searchTerm
@@ -55,7 +66,6 @@ function CampaignPage() {
             console.log('Error in fetching data: ', error)
             setCampaigns([])
         }
-        // setLoader(false)
     }
 
     useEffect(() => {
@@ -93,40 +103,17 @@ function CampaignPage() {
                 </p>
                 <Row className='py-3 mx-5'>
                     <Col md={12}>
-                        <InputGroup >
-                            <Form.Control
-                                placeholder='Search By title...'
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                                className='py-3'
-                            />
-                            <Button variant='success' className='fs-5' onClick={handleSearch}>
-                                Search
-                            </Button>
-                        </InputGroup>
+                        <SearchBar placeholder = "Search by title..." searchTerm = {searchTerm} setSearchTerm = {setSearchTerm} onSearch={handleSearch}/>
                     </Col>
                 </Row>
 
                 <Row className='justify-content-center align-items-center mb-4'>
                     <Col md={4} xs={12} className='mb-3 mb-md-0'>
-                        <Form.Select value={category} onChange={handleCategory} className='py-3'>
-                            <option value="">All Categories</option>
-                            <option value="Education">Education</option>
-                            <option value="Medical">Medical</option>
-                            <option value="Business">Business</option>
-                            <option value="Environment">Environment</option>
-                            <option value="Other">Other</option>
-                        </Form.Select>
+                        <SelectFilter value={category} onChange={handleCategory} options={categoryOptions}/>
                     </Col>
 
                     <Col md={4} xs={12} className='mb-3 mb-md-0'>
-                        <Form.Select value={sortBy} onChange={handleSortBy} className='py-3'>
-                            <option value="">Sort By</option>
-                            <option value="newest">Newest</option>
-                            <option value="oldest">Oldest</option>
-                            <option value="amount_desc">Highest Target Amount</option>
-                            <option value="amount_asc">Lowest Target Amount</option>
-                        </Form.Select>
+                        <SelectFilter value={sortBy} onChange={handleSortBy} options={sortOptions}/>
                     </Col>
 
                     <Col md={2} xs={12} className='mb-3 mb-md-0'>
@@ -135,50 +122,7 @@ function CampaignPage() {
                 </Row>
             </div>
 
-            <div className='my-4 '>
-                <Row>
-                    {loader ? (
-                        <div className='text-center py-5'>
-                            <Spinner animation='border' variant='success'/>
-                        </div>
-                    ) : campaigns.length > 0 ? (
-                        campaigns.map((camp, index) => {
-                            const imgSrc = camp.imgURL
-                                ? getImage(camp.imgURL)
-                                : 'https://via.placeholder.com/600x400?text=Campaign+Banner';
-
-                            return (
-                                <Col md={4} sm={6} xs={12} key={camp._id} className="py-2" data-aos="fade-up" data-aos-delay={index*100}>
-                                    <Card className="shadow-sm">
-                                        <CardBody>
-                                            <img src={imgSrc} alt="banner" style={{height: 200, objectFit: 'cover', width: '100%'}} />
-
-                                            <ProgressBar now={70} variant='success' animated className='mt-4' style={{height: '10px', borderRadius: '50px'}}/>
-                                            <div className="card-text py-2 mt-2">
-                                                <div className="d-flex justify-content-between">
-                                                    <CardTitle>{camp.title}</CardTitle>
-                                                    <CardText className='fw-bold'>
-                                                        ₹{camp.targetAmount}
-                                                    </CardText>
-                                                </div>
-                                                <CardText>{camp.category}</CardText>
-                                                <CardText>{camp.shortDesc}</CardText>
-                                                <Button as={Link} to={`/campaign/${camp._id}`} variant="outline-success" className="mt-2 py-2">View Details</Button>
-                                            </div>
-                                        </CardBody>
-                                    </Card>
-                                </Col>
-                            )
-                        })
-                    ) : (
-                        <p className="text-center fs-5 ">No Campaigns Found.</p>
-                    )}
-                </Row>
-
-                
-            </div>
-
-
+            <CampaignList campaigns={campaigns} loader={loader}/>
         </Container>
         </>
      );

@@ -3,18 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { Container, Form, Button, Row, Col, Alert } from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import signInImg from '../assets/signin.svg'
-import AOS from "aos";
 import { getUser } from "../services/api";
 
 function Login() {
-
-    useEffect(() => {
-        AOS.init({
-            duration: 1000,
-            once: false,
-            offset: 100,
-        })
-    }, [])
     
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');

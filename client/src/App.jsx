@@ -1,10 +1,8 @@
 import React, { useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+import AOS from "aos";
 import { Route, Routes} from 'react-router-dom';
-
-import NavbarComponent from './components/NavbarComponent/NavbarComponent';
-import Footer from './components/Footer';
 
 import Login from './pages/Login';
 import Signup from './pages/Signup';
@@ -16,13 +14,19 @@ import Contact from './pages/Contact';
 
 import { fetchMessage } from './services/api';
 import CamapignDetail from './pages/CampaignDetail';
-import DashBoard from './pages/Dashboard';
-
+import MainLayout from './components/MainLayout';
+import DashboardLayout from './components/DashBoardLayout';
+import UserDashboard from './pages/UserDashboard';
 
 function App() {
 
-
   useEffect(() => {
+    AOS.init({
+      duration: 1000,
+      once: false,
+      offset: 100,
+    })
+
     fetchMessage()
       .then(
         res => {
@@ -33,19 +37,26 @@ function App() {
 
   return (
     <>
-      <NavbarComponent />
       <Routes>
-        <Route path='/' element ={<Home/>}/>
-        <Route path="/login" element={<Login/>} />
-        <Route path='/signup' element={<Signup/>} />
-        <Route path='/about' element={<AboutPage/>} />
-        <Route path='/campaigns' element={<CampaignPage/>}/>
-        <Route path='/contact' element={<Contact/>}/>
-        <Route path='/startCampaign' element={<StartCampaign/>}/>
-        <Route path='/campaign/:id' element={<CamapignDetail/>}/>
-        <Route path='/dashboard' element={<DashBoard/>} />
+        {/* Public Routes */}
+
+        <Route element={<MainLayout/>}>
+          <Route path='/' element ={<Home/>}/>
+          <Route path="/login" element={<Login/>} />
+          <Route path='/signup' element={<Signup/>} />
+          <Route path='/about' element={<AboutPage/>} />
+          <Route path='/campaigns' element={<CampaignPage/>}/>
+          <Route path='/contact' element={<Contact/>}/>
+          <Route path='/startCampaign' element={<StartCampaign/>}/>
+          <Route path='/campaign/:id' element={<CamapignDetail/>}/>
+        </Route>
+
+        {/* DashBoard Routes */}
+
+        <Route path='/dashboard' element={<DashboardLayout/>}>
+          <Route index element={<UserDashboard/>}/>
+        </Route>
       </Routes>
-      <Footer/>
     </>
   );
 }
