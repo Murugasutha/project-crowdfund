@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Col, Container, Form, InputGroup, Row } from 'react-bootstrap';
-// import { Link } from 'react-router-dom';
+import { Button, Col, Container, Row } from 'react-bootstrap';
 import { getAllCampaigns, searchCampaign } from '../services/api';
 import CampaignList from '../components/CampaignList';
 import SearchBar from '../components/SearchBar';
