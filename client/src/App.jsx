@@ -55,7 +55,7 @@ function App() {
         {/* DashBoard Routes */}
 
         <Route path='/dashboard' element={<DashboardLayout/>}>
-          <Route index element={<UserDashboard/>}/>
+          <Route index path='user-home' element={<UserDashboard/>}/>
           <Route path='myCampaign' element={<MyCampaign/>}/>
           <Route path='start-campaign' element={<StartCampaign/>}/>
         </Route>

@@ -70,7 +70,7 @@ router.post('/create-campaign', protect, upload.single('image'), async (req, res
 
 router.get('/my-campaigns', protect, async (req, res) => {
   try {
-    console.log("User from token:", req.user);
+    // console.log("User from token:", req.user);
 
      if (!req.user || !req.user._id) {
       return res.status(401).json({ error: 'Unauthorized: User ID not found' });
